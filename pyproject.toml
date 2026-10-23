@@ -1,6 +1,6 @@
 [project]
 name = "moxi"
-version = "0.1.0"
+version = "0.1.1"
 description = "Moxi's core: the names, paths, config and module discovery every Moxi module shares, and the moxi command"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -42,8 +42,8 @@ build-backend = "hatchling.build"
 packages = ["src/moxi"]
 
 [tool.hatch.build.targets.sdist]
-# Paths that are never published stay out of a source distribution built from any branch.
-exclude = ["/CLAUDE.md", "/workspace", "/skeleton", "/.public-paths", "/.residue-allow"]
+# A source distribution built from any branch holds these paths and nothing else.
+only-include = ["LICENSE", "README.md", "src/moxi", "tests"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

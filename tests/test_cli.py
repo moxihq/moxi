@@ -119,7 +119,7 @@ def test_absent_module_prints_reason_and_install_line(site, capsys):
 
 
 def test_absent_module_install_line_goes_through_the_depending_extra(site, capsys):
-    """RULE 2: the command named goes through the depending module's extra, and says the
+    """The install command named goes through the depending module's extra, and says the
     range that module speaks."""
     site.module("comms", extras={"cache": ["moxi-cache>=0.1,<0.2"]},
                 OPTIONAL="{'cache': 'Holds a send while the cache is cold.'}")
@@ -132,8 +132,8 @@ def test_absent_module_install_line_goes_through_the_depending_extra(site, capsy
 
 
 def test_the_install_line_ignores_a_feature_extra_of_the_same_name(site):
-    """[R75]: only an extra that installs moxi-<name> routes module <name>; a feature
-    extra named codex says nothing about a module named codex."""
+    """Only an extra that installs moxi-<name> routes module <name>; a feature extra
+    named codex says nothing about a module named codex."""
     site.module("turns", extras={"codex": ["websockets>=13"]},
                 OPTIONAL="{'codex': 'Reaches Codex sessions.'}")
     site.module("comms", requires=("moxi-turns>=0.1,<0.2",),

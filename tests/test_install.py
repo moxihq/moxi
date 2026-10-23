@@ -355,7 +355,7 @@ def test_install_beside_a_depending_module_goes_through_its_extra(fake, capsys):
 
 def test_install_a_module_named_like_a_feature_extra_goes_to_its_own_distribution(
         fake, capsys):
-    """[R75]: comms' feature extra codex (moxi-turns[codex]) does not route a module
+    """Comms' feature extra codex (moxi-turns[codex]) does not route a module
     named codex; it installs from moxi-codex."""
     moxi_install(capsys, "comms")
     fake.runs.clear()

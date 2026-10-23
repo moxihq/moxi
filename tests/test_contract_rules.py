@@ -495,7 +495,7 @@ def test_console_scripts_are_named_moxi_module_part(repo):
 
 
 def test_a_module_s_moxi_script_is_the_umbrella(repo):
-    """[R11]: a module's moxi console script points at moxi.cli:main and nothing else."""
+    """A module's moxi console script points at moxi.cli:main and nothing else."""
     repo.write("pyproject.toml", pyproject(deps=("moxi", "moxi-beta"), scripts={
         "moxi": "moxi_alpha.module:main"}))
     assert repo.findings("7") == [

@@ -919,8 +919,8 @@ class _Repo:
         # Console scripts.
         for script in sorted(self.scripts):
             if script == CORE_SCRIPT[0]:
-                # [R11]: a module's moxi is the umbrella's, or a tool environment it
-                # heads would run something else as moxi.
+                # Every distribution's moxi script is the umbrella's, or a tool
+                # environment it heads would run something else as moxi.
                 if _target(self.scripts[script]) != CORE_SCRIPT[1]:
                     self.add(here, 0, "7", f"declares the console script {script} = "
                                            f"{self.scripts[script]!r}; every Moxi "

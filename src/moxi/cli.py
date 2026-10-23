@@ -157,7 +157,7 @@ def dispatch(name: str, argv: list[str]) -> int:
 
 
 def install_hint(name: str) -> str:
-    """The one command that installs module `name`, as RULE 2 names it.
+    """The one command that installs module `name`, which a feature missing it names.
 
     When installed modules declare an extra named by `name` that installs it (see
     `speakers_of`), the line goes through the first of them (`moxi install comms --with cache`) and says which range each speaks,
@@ -278,9 +278,9 @@ def speakers_of(name: str) -> list[Speaker]:
     from . import modules
 
     # Only an extra named by a module and installing that module's distribution routes
-    # it (§4.3, [R75]). A feature extra that happens to share the name (comms' `codex`,
-    # which adds moxi-turns[codex]) or a third party's extra says nothing about module
-    # `name`, so the hint and `moxi install` would go through the wrong distribution.
+    # it. A feature extra that happens to share the name (comms' `codex`, which adds
+    # moxi-turns[codex]) or a third party's extra says nothing about module `name`, so
+    # the hint and `moxi install` would go through the wrong distribution.
     wanted = normalize(names.distribution(name))
     out = []
     for entry in modules.installed():

@@ -62,7 +62,7 @@ def uv(tmp_path, uv_env, wheels):
     return Uv(tmp_path, uv_env, wheels)
 
 
-def test_p1_a_plain_module_install_puts_moxi_on_path(uv):
+def test_a_plain_module_install_puts_moxi_on_path(uv):
     done = uv.tool("install", "moxi-comms")
     assert "Installed 2 executables: moxi, moxi-comms-daemon" in done.stderr
     assert uv.modules(uv.bin / "moxi") == ["comms", "turns"]
@@ -72,34 +72,34 @@ def test_p1_a_plain_module_install_puts_moxi_on_path(uv):
         "moxi": "moxi-comms", "moxi-comms-daemon": "moxi-comms"}
 
 
-def test_p2_a_second_tool_declaring_moxi_is_refused(uv):
+def test_a_second_tool_declaring_moxi_is_refused(uv):
     uv.tool("install", "moxi-comms")
     done = uv.tool("install", "moxi-cache", check=False)
     assert done.returncode != 0
     assert "Executable already exists: moxi" in done.stderr
 
 
-def test_p3_with_adds_a_module_to_the_tool(uv):
+def test_with_adds_a_module_to_the_tool(uv):
     uv.tool("install", "moxi-comms", "--with", "moxi-cache")
     assert uv.modules(uv.bin / "moxi") == ["cache", "comms", "turns"]
     assert uv.receipt("moxi-comms")["requirements"] == [{"name": "moxi-comms"},
                                                         {"name": "moxi-cache"}]
 
 
-def test_p4_an_extra_is_recorded_in_the_receipt(uv):
+def test_an_extra_is_recorded_in_the_receipt(uv):
     uv.tool("install", "moxi-comms[cache]")
     assert uv.modules(uv.bin / "moxi") == ["cache", "comms", "turns"]
     assert uv.receipt("moxi-comms")["requirements"] == [
         {"name": "moxi-comms", "extras": ["cache"]}]
 
 
-def test_p5_an_upgrade_keeps_a_with(uv):
+def test_an_upgrade_keeps_a_with(uv):
     uv.tool("install", "moxi-comms", "--with", "moxi-cache")
     uv.tool("upgrade", "moxi-comms")
     assert uv.modules(uv.bin / "moxi") == ["cache", "comms", "turns"]
 
 
-def test_p6_a_re_run_without_a_with_removes_it_and_with_it_moxi(uv):
+def test_a_re_run_without_a_with_removes_it_and_with_it_moxi(uv):
     uv.tool("install", "moxi-comms", "--with", "moxi-cache")
     done = uv.tool("install", "moxi-comms")
     assert "Installed 2 executables: moxi, moxi-comms-daemon" in done.stderr
@@ -111,14 +111,14 @@ def test_p6_a_re_run_without_a_with_removes_it_and_with_it_moxi(uv):
     assert (uv.bin / "moxi").is_symlink() and not (uv.bin / "moxi").exists()
 
 
-def test_p7_a_dangling_moxi_link_is_no_clash(uv):
+def test_a_dangling_moxi_link_is_no_clash(uv):
     uv.tool("install", "moxi-comms", "--with", "moxi-cache")
     uv.tool("install", "moxi-comms")
     done = uv.tool("install", "moxi")
     assert "Installed 1 executable: moxi" in done.stderr
 
 
-def test_p8_another_tool_s_internal_scripts_stay_off_path(uv):
+def test_another_tool_s_internal_scripts_stay_off_path(uv):
     done = uv.tool("install", "moxi", "--with", "moxi-comms")
     assert "Installed 1 executable: moxi" in done.stderr
     assert not (uv.bin / "moxi-comms-daemon").exists()
@@ -126,7 +126,7 @@ def test_p8_another_tool_s_internal_scripts_stay_off_path(uv):
     assert uv.modules(uv.bin / "moxi") == ["comms", "turns"]
 
 
-def test_p9_reinstall_package_repairs_a_lost_moxi(uv):
+def test_reinstall_package_repairs_a_lost_moxi(uv):
     uv.tool("install", "moxi-comms", "--with", "moxi-cache")
     uv.tool("install", "moxi-comms")
     uv.tool("install", "moxi-comms", "--reinstall-package", "moxi-comms")
@@ -134,14 +134,14 @@ def test_p9_reinstall_package_repairs_a_lost_moxi(uv):
     assert uv.modules(uv.bin / "moxi") == ["comms", "turns"]
 
 
-def test_p10_with_executables_from_clashes_when_modules_declare_moxi(uv):
+def test_with_executables_from_clashes_when_modules_declare_moxi(uv):
     done = uv.tool("install", "moxi-comms", "--with-executables-from", "moxi",
                    check=False)
     assert done.returncode != 0
     assert "Executable already exists: moxi" in done.stderr
 
 
-def test_p11_a_plain_environment_loses_moxi_with_a_module(uv):
+def test_a_plain_environment_loses_moxi_with_a_module(uv):
     venv = uv.tmp / "venv"
     uv("venv", str(venv))
     python = str(venv / "bin" / "python")
@@ -153,8 +153,8 @@ def test_p11_a_plain_environment_loses_moxi_with_a_module(uv):
 
 
 def test_a_re_run_drops_the_receipt_s_options_and_python(uv):
-    """Not probed in the design's records: a re-run keeps no `[tool.options]` or
-    `python` of its own, so the installer passes them back."""
+    """A re-run keeps no `[tool.options]` or `python` of its own, so the installer
+    passes them back."""
     uv("tool", "install", "moxi-comms", "--no-index", "--find-links", str(uv.wheels),
        "--prerelease", "allow")
     receipt = uv.receipt("moxi-comms")
